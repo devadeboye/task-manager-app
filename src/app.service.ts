@@ -18,21 +18,36 @@ export class AppService {
     return this.taskModel.find({});
   }
 
-  viewTaskByDay() {
+  viewTaskByDay(date: Date) {
     // TODO: implement a report which tells percentage completed for the day
+    return this.taskModel.find({ startDate: date.toDateString() });
   }
 
-  viewUncompletedTaskByDay() {
-    // TODO: filter them with start date
+  viewUncompletedTaskByDay(date: Date) {
+    return this.taskModel.find({
+      startDate: date.toDateString(),
+      status: 'uncompleted',
+    });
   }
 
-  viewCompletedTaskByDay() {}
+  viewCompletedTaskByDay(date: Date) {
+    return this.taskModel.find({
+      startDate: date.toDateString(),
+      status: 'completed',
+    });
+  }
 
-  editTask() {}
+  editTask() {
+    //
+  }
 
-  deleteTask() {}
+  deleteTask() {
+    //
+  }
 
-  deleteMultipleTask() {}
+  deleteMultipleTask() {
+    //
+  }
 
   clearAllTask() {
     // wipe the db

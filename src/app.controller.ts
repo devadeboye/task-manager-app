@@ -2,7 +2,7 @@ import { Controller, Get, Post, Patch, Delete, Body, Res, HttpStatus, } from '@n
 import { Response } from 'express';
 import { AppService } from './app.service';
 import { TaskDto } from './dto/task.dto';
-import { successResponse, errorResponse } from './functions/responses';
+import { successResponse, errorResponse } from './functions/sharedFunctions';
 
 @Controller()
 export class AppController {
@@ -27,6 +27,21 @@ export class AppController {
   viewAllTasks(@Res() res: Response) {
     this.appService
       .viewAllTasks()
+      .then((response) => {
+        if (!response) {
+          throw 'unable to fetch tasks';
+        }
+        successResponse(res, response);
+      })
+      .catch((message) => {
+        errorResponse(res, message);
+      });
+  }
+
+  @Get('view-task-by-day')
+  viewTaskByDay(@Body() date: Date, @Res() res: Response) {
+    this.appService
+      .viewTaskByDay(date)
       .then((response) => {
         if (!response) {
           throw 'unable to fetch tasks';
