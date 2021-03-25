@@ -15,10 +15,36 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  // it(`/GET hello`, (done) => {
+  //   return request(app.getHttpServer())
+  //     .get('/hello')
+  //     .end((err, res) => {
+  //       expect(res.status).toBe(200);
+  //       expect(res.body.message).toBe('success');
+  //       done();
+  //     });
+  // });
+
+  it(`/POST add-task`, (done) => {
+    const taskInformation = {
+      title: 'Test Task',
+      description: 'This is a test task',
+      startDate: Date.now(),
+      endDate: Date.now() + 20000,
+    };
+
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .post('/add-task')
+      .send(taskInformation)
+      .end((err, res) => {
+        console.log(res.body);
+        expect(res.status).toBe(201);
+        expect(res.body.message).toBe('success');
+        done();
+      });
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });
