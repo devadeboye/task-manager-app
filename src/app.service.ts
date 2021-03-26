@@ -14,42 +14,62 @@ export class AppService {
   }
 
   async viewAllTasks() {
-    // TODO: display all tasks and categorise them based on date
     return this.taskModel.find({});
   }
 
-  viewTaskByDay(date: Date) {
+  viewTaskByDay(date: string) {
     // TODO: implement a report which tells percentage completed for the day
-    return this.taskModel.find({ startDate: date.toDateString() });
+    return this.taskModel.find({ startDate: date });
   }
 
-  viewUncompletedTaskByDay(date: Date) {
+  viewUncompletedTaskByDay(date: string) {
     return this.taskModel.find({
-      startDate: date.toDateString(),
+      startDate: date,
       status: 'uncompleted',
     });
   }
 
-  viewCompletedTaskByDay(date: Date) {
+  viewCompletedTaskByDay(date: string) {
+    const readableFormat = new Date(date).toDateString();
     return this.taskModel.find({
-      startDate: date.toDateString(),
+      startDate: readableFormat,
       status: 'completed',
     });
   }
 
-  editTask() {
-    //
+  // editTask(id: string) {
+  //   return this.taskModel.findOneAndUpdate(
+  //     { _id: id },
+  //     { title, description, startDate, endDate },
+  //     { new: true },
+  //   );
+  // }
+
+  markCompleted(id: string) {
+    return this.taskModel.findOneAndUpdate(
+      { _id: id },
+      { status: 'completed' },
+      { new: true },
+    );
   }
 
-  deleteTask() {
-    //
+  markUnCompleted(id: string) {
+    return this.taskModel.findOneAndUpdate(
+      { _id: id },
+      { status: 'uncompleted' },
+      { new: true },
+    );
   }
 
-  deleteMultipleTask() {
-    //
+  deleteTask(id: string) {
+    return this.taskModel.findByIdAndDelete(id);
   }
 
-  clearAllTask() {
-    // wipe the db
-  }
+  // deleteMultipleTask() {
+  //
+  // }
+
+  // clearAllTask() {
+  //
+  // }
 }

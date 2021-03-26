@@ -15,9 +15,28 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  // it(`/GET hello`, (done) => {
+  // it(`/POST add-task`, (done) => {
+  //   const taskInformation = {
+  //     title: 'Test Task',
+  //     description: 'This is a test task',
+  //     startDate: new Date('2021-03-25').toDateString(),
+  //     endDate: new Date('2021-03-26').toDateString(),
+  //   };
+
   //   return request(app.getHttpServer())
-  //     .get('/hello')
+  //     .post('/add-task')
+  //     .send(taskInformation)
+  //     .end((err, res) => {
+  //       console.log(res.body);
+  //       expect(res.status).toBe(201);
+  //       expect(res.body.message).toBe('success');
+  //       done();
+  //     });
+  // });
+
+  // it(`/GET view-all`, (done) => {
+  //   return request(app.getHttpServer())
+  //     .get('/view-all')
   //     .end((err, res) => {
   //       expect(res.status).toBe(200);
   //       expect(res.body.message).toBe('success');
@@ -25,24 +44,35 @@ describe('AppController (e2e)', () => {
   //     });
   // });
 
-  it(`/POST add-task`, (done) => {
-    const taskInformation = {
-      title: 'Test Task',
-      description: 'This is a test task',
-      startDate: Date.now(),
-      endDate: Date.now() + 20000,
-    };
-
+  it(`/GET view-task-by-day`, (done) => {
     return request(app.getHttpServer())
-      .post('/add-task')
-      .send(taskInformation)
+      .get('/view-task-by-day/?date=Thu+Mar+25+2021')
       .end((err, res) => {
-        console.log(res.body);
-        expect(res.status).toBe(201);
+        expect(res.status).toBe(200);
         expect(res.body.message).toBe('success');
         done();
       });
   });
+
+  // it(`/PATCH mark-completed`, (done) => {
+  //   return request(app.getHttpServer())
+  //     .patch('/mark-completed/?id=605d914f5f5c366de2327638')
+  //     .end((err, res) => {
+  //       expect(res.status).toBe(200);
+  //       expect(res.body.message).toBe('success');
+  //       done();
+  //     });
+  // });
+
+  // it(`/PATCH mark-uncompleted`, (done) => {
+  //   return request(app.getHttpServer())
+  //     .patch('/mark-uncompleted/?id=605d914f5f5c366de2327638')
+  //     .end((err, res) => {
+  //       expect(res.status).toBe(200);
+  //       expect(res.body.message).toBe('success');
+  //       done();
+  //     });
+  // });
 
   afterAll(async () => {
     await app.close();
